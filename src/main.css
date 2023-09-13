@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+body {
+	@apply text-white font-sans text-2xl;
+	background-color: #36454f;
+}
+
+.animate {
+	@apply transition-all ease-in-out duration-200;
+}
