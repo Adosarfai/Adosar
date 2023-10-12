@@ -1,10 +1,15 @@
 import { BsDiscord, BsGithub, BsGoogle } from 'react-icons/bs';
 import { FormEvent, useReducer } from 'react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError } from 'axios';
+
+interface FormData {
+	email: string;
+	password: string;
+}
 
 export default function Login() {
 	const [formData, updateFormData] = useReducer(
-		(prev: any, next: any) => {
+		(prev: FormData, next: Partial<FormData>) => {
 			return { ...prev, ...next };
 		},
 		{ email: '', password: '' }
@@ -15,7 +20,7 @@ export default function Login() {
 			.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, formData, {
 				withCredentials: true,
 			})
-			.then((_: AxiosResponse) => (window.location.pathname = '/'))
+			.then(() => (window.location.pathname = '/'))
 			.catch((err: AxiosError) => {
 				if (err.response === undefined) {
 					alert(err);
