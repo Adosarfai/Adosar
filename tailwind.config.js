@@ -2,14 +2,15 @@
 export default {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				charcoal: '#36454F',
+				primary: '#FB8B24',
+				secondary: '#DB5461',
+				linen: '#FAF0E6',
+				cambridge: '#7C9885',
+			},
+		},
 	},
-	colors: {
-		charcoal: '#36454F',
-		primary: '#FB8B24',
-		secondary: '#DB5461',
-		linen: '#FAF0E6',
-		cambridge: '#7C9885',
-	},
-	plugins: [],
+	plugins: [import('@headlessui/tailwindcss')],
 };

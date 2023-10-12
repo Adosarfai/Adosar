@@ -8,6 +8,10 @@ body {
 	background-color: #36454f;
 }
 
-.animate {
+.smooth {
 	@apply transition-all ease-in-out duration-200;
+}
+
+.h-screen {
+	height: calc(100vh - 4rem);
 }
