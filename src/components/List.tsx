@@ -8,13 +8,11 @@ interface props extends HTMLProps<HTMLDivElement> {
 export default function List(props: props) {
 	return (
 		<div className={props.className}>
-			{props.scores.map((score, index) => {
-				return (
-					<div className='flex gap-4' key={index}>
-						<h1>{score.user.username}</h1>
-					</div>
-				);
-			})}
+			{props.scores.map((score, index) => (
+				<div className='flex gap-4' key={index}>
+					<h1>{score.user.username}</h1>
+				</div>
+			))}
 		</div>
 	);
 }

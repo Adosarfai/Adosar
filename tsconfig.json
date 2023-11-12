@@ -21,10 +21,12 @@
 		"forceConsistentCasingInFileNames": true,
 		"paths": {
 			"@components/*": ["src/components/*"],
-			"@classes/*": ["src/classes/*"]
+			"@classes/*": ["src/types/classes/*"],
+			"@services/*": ["src/services/*"],
+			"@types/*": ["src/types/*"]
 		}
 	},
-	"include": ["src"],
+	"include": ["src/**/*"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"

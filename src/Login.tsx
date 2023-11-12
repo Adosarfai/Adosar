@@ -1,33 +1,22 @@
 import { BsDiscord, BsGithub, BsGoogle } from 'react-icons/bs';
-import { FormEvent, useReducer } from 'react';
-import axios, { AxiosError } from 'axios';
-
-interface FormData {
-	email: string;
-	password: string;
-}
+import { FormEvent, Reducer, useReducer } from 'react';
+import UserService from '@services/UserService.ts';
 
 export default function Login() {
-	const [formData, updateFormData] = useReducer(
-		(prev: FormData, next: Partial<FormData>) => {
-			return { ...prev, ...next };
-		},
+	const [formData, updateFormData] = useReducer<
+		Reducer<loginUserRequest, Partial<loginUserRequest>>
+	>(
+		(prev: loginUserRequest, next: Partial<loginUserRequest>) => ({
+			...prev,
+			...next,
+		}),
 		{ email: '', password: '' }
 	);
 
 	function onLoginEmail(e: FormEvent<HTMLFormElement>) {
-		axios
-			.post(`${import.meta.env.VITE_BACKEND_URL}/user/login`, formData, {
-				withCredentials: true,
-			})
-			.then(() => (window.location.pathname = '/'))
-			.catch((err: AxiosError) => {
-				if (err.response === undefined) {
-					alert(err);
-				} else if (err.response.status === 401) {
-					alert('Invalid credentials');
-				}
-			});
+		UserService.loginUser(formData).then(
+			() => (window.location.pathname = '/')
+		);
 		e.preventDefault();
 	}
 

@@ -1,5 +1,6 @@
 ﻿import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
 	const pages = [
@@ -74,9 +75,7 @@ export default function Navbar() {
 								</div>
 								<div className='hidden sm:w-full sm:block'></div>
 								<div className='hidden sm:ml-6 sm:block float-right flex-none'>
-									{document.cookie.match(
-										/^(.*;)?\s*jwt\s*=\s*[^;]+(.*)?$/
-									) === null ? (
+									{Cookies.get('jwt') ? (
 										<a href='/login'>
 											<img
 												src='person.svg'
