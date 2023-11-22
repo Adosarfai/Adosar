@@ -2,7 +2,7 @@
 import { User } from '@classes/user';
 import { Replay } from '@classes/replay';
 
-export interface Score {
+export interface Score extends Requestable {
 	scoreId: number;
 	map: Map;
 	user: User;

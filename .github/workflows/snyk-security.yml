@@ -51,6 +51,7 @@ jobs:
                   # This is where you will need to introduce the Snyk API token created with your Snyk account
                   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
                   VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+                  VITE_CDN_URL: ${{ secrets.VITE_CDN_URL }}
 
               # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
               # Use || true to not fail the pipeline

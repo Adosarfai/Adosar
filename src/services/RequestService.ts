@@ -1,9 +1,10 @@
-﻿import axios, { AxiosError } from 'axios';
+﻿/* eslint react-hooks/rules-of-hooks: 0 */ // --> OFF
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import useSWR, { SWRResponse } from 'swr';
 
 export default class RequestService {
-	static async postAsync<T = any>(
+	static async postAsync<T = Requestable>(
 		url: string,
 		data: any,
 		withCredentials: boolean
@@ -21,7 +22,7 @@ export default class RequestService {
 		}
 	}
 
-	static post<T = any>(
+	static post<T = Requestable>(
 		url: string,
 		data: any,
 		withCredentials: boolean
@@ -39,7 +40,7 @@ export default class RequestService {
 		return res;
 	}
 
-	static async getAsync<T = any>(
+	static async getAsync<T = Requestable>(
 		url: string,
 		withCredentials: boolean
 	): Promise<T> {
@@ -55,7 +56,7 @@ export default class RequestService {
 		}
 	}
 
-	static get<T = any>(
+	static get<T = Requestable>(
 		url: string,
 		withCredentials: boolean
 	): SWRResponse<T, AxiosError<any, any>, any> {
@@ -65,7 +66,7 @@ export default class RequestService {
 		);
 	}
 
-	static async deleteAsync<T = any>(
+	static async deleteAsync<T = Requestable>(
 		url: string,
 		withCredentials: boolean
 	): Promise<T> {
@@ -81,7 +82,7 @@ export default class RequestService {
 		}
 	}
 
-	static delete<T = any>(
+	static delete<T = Requestable>(
 		url: string,
 		withCredentials: boolean
 	): SWRResponse<T, AxiosError<any, any>, any> {
@@ -98,7 +99,7 @@ export default class RequestService {
 		return res;
 	}
 
-	static async patchAsync<T = any>(
+	static async patchAsync<T = Requestable>(
 		url: string,
 		data: any,
 		withCredentials: boolean
@@ -116,7 +117,7 @@ export default class RequestService {
 		}
 	}
 
-	static patch<T = any>(
+	static patch<T = Requestable>(
 		url: string,
 		data: any,
 		withCredentials: boolean

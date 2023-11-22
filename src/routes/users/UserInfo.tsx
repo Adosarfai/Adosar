@@ -7,7 +7,7 @@ import { IoMdDownload } from 'react-icons/io';
 import { FiExternalLink } from 'react-icons/fi';
 
 export default function UserInfo() {
-	let { id } = useParams();
+	const { id } = useParams();
 
 	if (!id) {
 		toast.error('No user ID specified in url');
@@ -20,7 +20,7 @@ export default function UserInfo() {
 	const { data: maps, error: errorMaps } = MapService.getMapsByUser(
 		Number(id)
 	);
-	let error = errorUserData || errorMaps;
+	const error = errorUserData || errorMaps;
 
 	if (error) {
 		toast.error(`Could not find user with id ${id}`);

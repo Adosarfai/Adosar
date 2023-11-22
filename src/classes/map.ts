@@ -1,7 +1,7 @@
 ﻿import { User } from '@classes/user';
 import { Removed } from '@classes/removed';
 
-export interface Map {
+export interface Map extends Requestable {
 	mapId: number;
 	user: User;
 	title: string;
