@@ -6,7 +6,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "yarn vite",
-		"build": "tsc && vite build && pm2 start ecosystem.config.cjs --env production --log /root/adosar/logs/website.log --time",
+		"build": "tsc && vite build",
+		"start": "pm2 start ecosystem.config.cjs --env production --log /root/adosar/logs/website.log --time",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "yarn vite preview",
 		"prepare": "husky install"
