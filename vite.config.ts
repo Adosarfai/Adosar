@@ -10,7 +10,7 @@ export default defineConfig({
 		react(),
 		tsconfigPaths(),
 		mkcert({
-			hosts: ['dev.adosar.net'],
+			hosts: ['dev.adosar.io'],
 		}),
 	],
 });

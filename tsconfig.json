@@ -21,9 +21,10 @@
 		"forceConsistentCasingInFileNames": true,
 		"paths": {
 			"@components/*": ["src/components/*"],
-			"@classes/*": ["src/types/classes/*"],
+			"@classes/*": ["src/classes/*"],
 			"@services/*": ["src/services/*"],
-			"@types/*": ["src/types/*"]
+			"@types/*": ["src/types/*"],
+			"@routes/*": ["src/routes/*"]
 		}
 	},
 	"include": ["src/**/*"],

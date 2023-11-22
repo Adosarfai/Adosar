@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "yarn vite",
-		"build": "tsc && yarn vite build",
+		"build": "tsc && vite build && pm2 start ecosystem.config.cjs --env production --log /root/adosar/logs/website.log --time",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "yarn vite preview",
 		"prepare": "husky install"
@@ -40,10 +40,11 @@
 		"react-animated-numbers": "^0.16.0",
 		"react-toastify": "^9.1.3",
 		"snyk": "^1.1220.0",
+		"swr": "^2.2.4",
 		"tailwindcss": "^3.3.3",
 		"typescript": "^5.0.2",
 		"vite": "^4.4.5",
-		"vite-plugin-mkcert": "^1.16.0",
+		"vite-plugin-mkcert": "^1.17.1",
 		"vite-tsconfig-paths": "^4.2.1"
 	},
 	"lint-staged": {

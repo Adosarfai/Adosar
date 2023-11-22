@@ -1,21 +1,19 @@
-﻿import axios from 'axios';
+﻿import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
+import useSWR, { SWRResponse } from 'swr';
 
 export default class RequestService {
-	static async post<T = any>(
+	static async postAsync<T = any>(
 		url: string,
 		data: any,
 		withCredentials: boolean
 	): Promise<T> {
 		try {
-			const res = await axios.post(
+			return await this.postFetcher(
 				`${import.meta.env.VITE_BACKEND_URL}${url}`,
 				data,
-				{
-					withCredentials,
-				}
+				withCredentials
 			);
-			return res.data;
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
@@ -23,18 +21,33 @@ export default class RequestService {
 		}
 	}
 
-	static async get<T = any>(
+	static post<T = any>(
+		url: string,
+		data: any,
+		withCredentials: boolean
+	): SWRResponse<T, AxiosError<any, any>, any> {
+		const res = useSWR<T, AxiosError<any, any>>(
+			`${import.meta.env.VITE_BACKEND_URL}${url}`,
+			(_url: string) => this.postFetcher(_url, data, withCredentials)
+		);
+
+		if (res.error) {
+			toast.error('Failed to complete request');
+			console.error(res.error);
+		}
+
+		return res;
+	}
+
+	static async getAsync<T = any>(
 		url: string,
 		withCredentials: boolean
 	): Promise<T> {
 		try {
-			const res = await axios.get(
+			return await this.getFetcher(
 				`${import.meta.env.VITE_BACKEND_URL}${url}`,
-				{
-					withCredentials,
-				}
+				withCredentials
 			);
-			return res.data;
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
@@ -42,18 +55,25 @@ export default class RequestService {
 		}
 	}
 
-	static async delete<T = any>(
+	static get<T = any>(
+		url: string,
+		withCredentials: boolean
+	): SWRResponse<T, AxiosError<any, any>, any> {
+		return useSWR<T, AxiosError<any, any>>(
+			`${import.meta.env.VITE_BACKEND_URL}${url}`,
+			(_url: string) => this.getFetcher(_url, withCredentials)
+		);
+	}
+
+	static async deleteAsync<T = any>(
 		url: string,
 		withCredentials: boolean
 	): Promise<T> {
 		try {
-			const res = await axios.delete(
+			return await this.deleteFetcher(
 				`${import.meta.env.VITE_BACKEND_URL}${url}`,
-				{
-					withCredentials,
-				}
+				withCredentials
 			);
-			return res.data;
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
@@ -61,24 +81,92 @@ export default class RequestService {
 		}
 	}
 
-	static async patch<T = any>(
+	static delete<T = any>(
+		url: string,
+		withCredentials: boolean
+	): SWRResponse<T, AxiosError<any, any>, any> {
+		const res = useSWR<T, AxiosError<any, any>>(
+			`${import.meta.env.VITE_BACKEND_URL}${url}`,
+			(_url: string) => this.deleteFetcher(_url, withCredentials)
+		);
+
+		if (res.error) {
+			toast.error('Failed to complete request');
+			console.error(res.error);
+		}
+
+		return res;
+	}
+
+	static async patchAsync<T = any>(
 		url: string,
 		data: any,
 		withCredentials: boolean
 	): Promise<T> {
 		try {
-			const res = await axios.patch(
+			return await this.patchFetcher(
 				`${import.meta.env.VITE_BACKEND_URL}${url}`,
 				data,
-				{
-					withCredentials,
-				}
+				withCredentials
 			);
-			return res.data;
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
 			return Promise.reject(e);
 		}
 	}
+
+	static patch<T = any>(
+		url: string,
+		data: any,
+		withCredentials: boolean
+	): SWRResponse<T, AxiosError<any, any>, any> {
+		const res = useSWR<T, AxiosError<any, any>>(
+			`${import.meta.env.VITE_BACKEND_URL}${url}`,
+			(_url: string) => this.patchFetcher(_url, data, withCredentials)
+		);
+
+		if (res.error) {
+			toast.error('Failed to complete request');
+			console.error(res.error);
+		}
+
+		return res;
+	}
+
+	private static getFetcher = (url: string, withCredentials: boolean) =>
+		axios
+			.get(url, {
+				withCredentials,
+			})
+			.then(res => res.data);
+
+	private static postFetcher = (
+		url: string,
+		data: any,
+		withCredentials: boolean
+	) =>
+		axios
+			.post(url, data, {
+				withCredentials,
+			})
+			.then(res => res.data);
+
+	private static deleteFetcher = (url: string, withCredentials: boolean) =>
+		axios
+			.delete(url, {
+				withCredentials,
+			})
+			.then(res => res.data);
+
+	private static patchFetcher = (
+		url: string,
+		data: any,
+		withCredentials: boolean
+	) =>
+		axios
+			.patch(url, data, {
+				withCredentials,
+			})
+			.then(res => res.data);
 }

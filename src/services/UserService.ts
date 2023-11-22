@@ -2,27 +2,27 @@ import RequestService from './RequestService.ts';
 import { User } from '@classes/user';
 
 export default class UserService {
-	static async getAllUsers(page: number) {
-		return await RequestService.get<User[]>(`/all/${page}`, false);
+	static getAllUsers(page: number) {
+		return RequestService.get<User[]>(`/user/all/${page}`, false);
 	}
 
-	static async getUserById(id: number) {
-		return await RequestService.get<User>(`/${id}`, false);
+	static getUserById(id: number) {
+		return RequestService.get<User>(`/user/${id}`, false);
 	}
 
-	static async createNewUser(user: createNewUserRequest) {
-		return await RequestService.post<void>('/', user, false);
+	static createNewUser(user: createNewUserRequest) {
+		return RequestService.post<void>('/user', user, false);
 	}
 
 	static async loginUser(login: loginUserRequest) {
-		return await RequestService.post<void>('/login', login, true);
+		return RequestService.postAsync<void>('/user/login', login, true);
 	}
 
-	static async removeUser(id: number) {
-		return await RequestService.delete<void>(`/${id}`, true);
+	static removeUser(id: number) {
+		return RequestService.delete<void>(`/user/${id}`, true);
 	}
 
-	static async activateUser(id: number) {
-		return await RequestService.patch<void>(`/${id}`, {}, true);
+	static activateUser(id: number) {
+		return RequestService.patch<void>(`/user/${id}`, {}, true);
 	}
 }

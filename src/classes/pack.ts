@@ -1,14 +1,13 @@
 ﻿import { User } from '@classes/user';
 import { Removed } from '@classes/removed';
+import { Map } from '@classes/map';
 
-export class Map {
-	mapId: number;
+export interface Pack {
+	packId: number;
 	user: User;
 	title: string;
-	artist: string;
 	published: boolean;
 	removed: Removed;
 	removalReason: string;
-	creationDate: Date;
-	lastUpdate: Date;
+	maps: Map[];
 }

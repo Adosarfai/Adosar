@@ -1,6 +1,7 @@
 ﻿import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Cookies from 'js-cookie';
+import { Jwt } from '@classes/jwt.ts';
 
 export default function Navbar() {
 	const pages = [
@@ -12,10 +13,28 @@ export default function Navbar() {
 
 	const currentPage = window.location.pathname;
 
+	function parseJwt(token: string): Jwt {
+		let base64Url = token.split('.')[1];
+		let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+		let jsonPayload = decodeURIComponent(
+			window
+				.atob(base64)
+				.split('')
+				.map(function (c) {
+					return (
+						'%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+					);
+				})
+				.join('')
+		);
+
+		return JSON.parse(jsonPayload);
+	}
+
 	return (
 		<Disclosure
 			as='nav'
-			className='w-screen h-16 bg-gray-800 shadow-2xl smooth duration-100'>
+			className='w-full h-16 bg-gray-800 shadow-2xl smooth duration-100'>
 			{({ open }) => (
 				<>
 					<div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
@@ -78,7 +97,13 @@ export default function Navbar() {
 									{Cookies.get('jwt') ? (
 										<a href='/login'>
 											<img
-												src='person.svg'
+												src={`${
+													import.meta.env.VITE_CDN_URL
+												}/user/${
+													parseJwt(
+														Cookies.get('jwt') || ''
+													).userId
+												}.png`}
 												alt='PP'
 												className='h-10 w-10 rounded-full'
 											/>
@@ -86,7 +111,7 @@ export default function Navbar() {
 									) : (
 										<a href='/login'>
 											<img
-												src='https://cdn.discordapp.com/avatars/490534335884165121/94d9ca40c4e0db80989a4ab7e41f2b6e.webp?size=100'
+												src='/person.svg'
 												alt='PP'
 												className='h-10 w-10 rounded-full'
 											/>
@@ -98,7 +123,7 @@ export default function Navbar() {
 					</div>
 
 					<Disclosure.Panel className='sm:hidden'>
-						<div className='space-y-1 px-2 pb-3 pt-2'>
+						<div className='space-y-1 px-2 pb-3 pt-2 bg-gray-800 z-10'>
 							{pages.map((item, index) => (
 								<Disclosure.Button
 									key={index}

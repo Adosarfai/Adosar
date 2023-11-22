@@ -2,7 +2,7 @@
 import { User } from '@classes/user';
 import { Replay } from '@classes/replay';
 
-export class Score {
+export interface Score {
 	scoreId: number;
 	map: Map;
 	user: User;

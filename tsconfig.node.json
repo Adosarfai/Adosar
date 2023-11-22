@@ -7,8 +7,10 @@
 		"allowSyntheticDefaultImports": true,
 		"paths": {
 			"@components/*": ["src/components/*"],
+			"@classes/*": ["src/classes/*"],
+			"@services/*": ["src/services/*"],
 			"@types/*": ["src/types/*"],
-			"@classes/*": ["src/classes/*"]
+			"@routes/*": ["src/routes/*"]
 		}
 	},
 	"include": ["vite.config.ts"]
