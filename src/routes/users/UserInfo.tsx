@@ -3,8 +3,9 @@ import { toast } from 'react-toastify';
 import UserService from '@services/UserService.ts';
 import Loading from '../../components/Loading.tsx';
 import MapService from '@services/MapService.ts';
-import { IoMdDownload } from 'react-icons/io';
-import { FiExternalLink } from 'react-icons/fi';
+import { Badge } from '@classes/badge.ts';
+import { Map } from '@classes/map.ts';
+import Mapcard from '@components/Mapcard.tsx';
 
 export default function UserInfo() {
 	const { id } = useParams();
@@ -66,17 +67,19 @@ export default function UserInfo() {
 										User has no badges
 									</p>
 								) : (
-									userData.badges.map((badge, i) => (
-										<img
-											key={i}
-											className='h-full rounded-full'
-											src={`${
-												import.meta.env.VITE_CDN_URL
-											}/badge/${badge.badgeId}.png`}
-											alt={badge.badgeId.toString()}
-											title={badge.name}
-										/>
-									))
+									userData.badges.map(
+										(badge: Badge, i: number) => (
+											<img
+												key={i}
+												className='h-full rounded-full'
+												src={`${
+													import.meta.env.VITE_CDN_URL
+												}/badge/${badge.badgeId}.png`}
+												alt={badge.badgeId.toString()}
+												title={badge.name}
+											/>
+										)
+									)
 								)}
 							</div>
 						</span>
@@ -87,45 +90,15 @@ export default function UserInfo() {
 				{!maps || !userData ? (
 					<Loading />
 				) : (
-					maps.map((map, i) => {
+					maps.map((map: Map, i: number) => {
 						return (
-							<div
-								key={i + 1}
-								className='rounded-2xl bg-gray-800 p-6 my-6 flex-1 sm:flex sm:max-w-[33%]'>
-								<img
-									src={`${
-										import.meta.env.VITE_CDN_URL
-									}/cover/${userData.userId}.png`}
-									alt='pfp'
-									className='h-fit w-32 rounded-full mr-8'
-								/>
-								<div className='relative'>
-									<div className='text-sm sm:text-2xl'>
-										<h1 className='font-bold'>
-											{map.title}
-										</h1>
-										<p className='font-light text-gray-300 sm:text-xl'>
-											by {map.artist}
-										</p>
-									</div>
-									<div className='sm:absolute bottom-0 right-0 flex gap-4 justify-evenly mt-2'>
-										<a
-											className='hover:opacity-30 smooth duration-100'
-											href={`/map/${map.mapId}`}
-											target='_blank'>
-											<FiExternalLink />
-										</a>
-										<a
-											className='hover:opacity-30 smooth duration-100'
-											href={`${
-												import.meta.env.VITE_CDN_URL
-											}/map/${map.mapId}.zip`}
-											target='_blank'>
-											<IoMdDownload />
-										</a>
-									</div>
-								</div>
-							</div>
+							<Mapcard
+								key={i}
+								userId={userData.userId}
+								mapId={map.mapId}
+								title={map.title}
+								mapper={map.artist}
+							/>
 						);
 					})
 				)}
