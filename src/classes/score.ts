@@ -9,4 +9,5 @@ export interface Score extends Requestable {
 	replay: Replay;
 	timeSet: Date;
 	speed: number;
+	points: number;
 }

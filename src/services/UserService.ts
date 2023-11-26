@@ -6,6 +6,20 @@ export default class UserService {
 		return RequestService.get<User[]>(`/user/all/${page}`, false);
 	}
 
+	static getAllUsersWithPartialData(
+		page: number,
+		username?: string,
+		creationdate?: string
+	) {
+		let query = '';
+		if (username) query += `username=${username}&`;
+		if (creationdate) query += `creationdate=${creationdate}&`;
+		return RequestService.get<User[]>(
+			`/user/query/${page}?${query}`,
+			false
+		);
+	}
+
 	static getUserById(id: number) {
 		return RequestService.get<User>(`/user/${id}`, false);
 	}
