@@ -18,7 +18,7 @@ export default function Mapcard(props: Props) {
 				alt='pfp'
 				className='h-fit w-32 rounded-full mr-8'
 			/>
-			<div className='relative'>
+			<div className='relative w-full'>
 				<div className='text-sm sm:text-2xl'>
 					<h1 className='font-bold'>{props.title}</h1>
 					<p className='font-light text-gray-300 sm:text-xl'>
