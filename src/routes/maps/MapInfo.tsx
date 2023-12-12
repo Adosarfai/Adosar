@@ -4,7 +4,7 @@ import Loading from '../../components/Loading.tsx';
 import MapService from '@services/MapService.ts';
 import ScoreService from '@services/ScoreService.ts';
 import { Score } from '@classes/score.ts';
-import Scorecard from '@components/Scorecard.tsx';
+import ScoreCard from '@components/ScoreCard.tsx';
 
 export default function MapInfo() {
 	const { id } = useParams();
@@ -77,7 +77,7 @@ export default function MapInfo() {
 				) : (
 					scoreData.map((score: Score, i: number) => {
 						return (
-							<Scorecard
+							<ScoreCard
 								key={i}
 								userId={score.user.userId}
 								replayId={score.replay.replayId}

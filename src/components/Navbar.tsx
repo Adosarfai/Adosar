@@ -1,7 +1,7 @@
 ﻿import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Cookies from 'js-cookie';
-import { Jwt } from '@classes/jwt.ts';
+import JwtService from '@services/JwtService.ts';
 
 export default function Navbar() {
 	const pages = [
@@ -12,24 +12,6 @@ export default function Navbar() {
 	];
 
 	const currentPage = window.location.pathname;
-
-	function parseJwt(token: string): Jwt {
-		const base64Url = token.split('.')[1];
-		const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-		const jsonPayload = decodeURIComponent(
-			window
-				.atob(base64)
-				.split('')
-				.map(function (c) {
-					return (
-						'%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-					);
-				})
-				.join('')
-		);
-
-		return JSON.parse(jsonPayload);
-	}
 
 	return (
 		<Disclosure
@@ -95,12 +77,12 @@ export default function Navbar() {
 								<div className='hidden sm:w-full sm:block'></div>
 								<div className='hidden sm:ml-6 sm:block float-right flex-none'>
 									{Cookies.get('jwt') ? (
-										<a href='/login'>
+										<a href='/settings'>
 											<img
 												src={`${
 													import.meta.env.VITE_CDN_URL
 												}/user/${
-													parseJwt(
+													JwtService.parseJwt(
 														Cookies.get('jwt') || ''
 													).userId
 												}.png`}

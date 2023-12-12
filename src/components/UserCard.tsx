@@ -8,7 +8,7 @@ interface Props {
 	innerClassName?: string;
 }
 
-export default function Usercard(props: Props) {
+export default function UserCard(props: Props) {
 	return (
 		<div
 			className={

@@ -8,7 +8,7 @@ interface Props {
 	username: string;
 }
 
-export default function Scorecard(props: Props) {
+export default function ScoreCard(props: Props) {
 	return (
 		<div className='rounded-2xl bg-gray-800 p-6 my-6 flex-1 sm:flex sm:max-w-[33%]'>
 			<img

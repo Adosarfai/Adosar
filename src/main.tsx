@@ -10,6 +10,8 @@ import Users from '@routes/users';
 import UserInfo from '@routes/users/UserInfo.tsx';
 import MapInfo from '@routes/maps/MapInfo.tsx';
 import Maps from '@routes/maps';
+import Register from '@routes/Register.tsx';
+import Settings from '@routes/Settings.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
 	{
 		path: '/login',
 		element: <Login />,
+	},
+	{
+		path: '/register',
+		element: <Register />,
 	},
 	{
 		path: '/users',
@@ -43,6 +49,10 @@ const router = createBrowserRouter([
 	{
 		path: '/map/:id',
 		element: <MapInfo />,
+	},
+	{
+		path: '/settings',
+		element: <Settings />,
 	},
 ]);
 

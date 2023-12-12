@@ -24,8 +24,8 @@ export default class UserService {
 		return RequestService.get<User>(`/user/${id}`, false);
 	}
 
-	static createNewUser(user: createNewUserRequest) {
-		return RequestService.post<void>('/user', user, false);
+	static async createNewUser(user: createNewUserRequest) {
+		return RequestService.postAsync<void>('/user', user, false);
 	}
 
 	static async loginUser(login: loginUserRequest) {
@@ -38,5 +38,9 @@ export default class UserService {
 
 	static activateUser(id: number) {
 		return RequestService.patch<void>(`/user/${id}`, {}, true);
+	}
+
+	static patchUserWithPartialData(request: patchUserWithPartialDataRequest) {
+		return RequestService.patchAsync<void>('/user/update', request, true);
 	}
 }

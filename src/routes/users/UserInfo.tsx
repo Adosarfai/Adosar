@@ -5,7 +5,10 @@ import Loading from '../../components/Loading.tsx';
 import MapService from '@services/MapService.ts';
 import { Badge } from '@classes/badge.ts';
 import { Map } from '@classes/map.ts';
-import Mapcard from '@components/Mapcard.tsx';
+import MapCard from '@components/MapCard.tsx';
+import { IoSettingsOutline } from 'react-icons/io5';
+import JwtService from '@services/JwtService.ts';
+import Cookies from 'js-cookie';
 
 export default function UserInfo() {
 	const { id } = useParams();
@@ -83,6 +86,16 @@ export default function UserInfo() {
 								)}
 							</div>
 						</span>
+						{JwtService.parseJwt(Cookies.get('jwt') || '')
+							.userId === Number(id) ? (
+							<div className='ml-2 mt-auto -mr-4 -mb-4'>
+								<a href='/settings'>
+									<IoSettingsOutline />
+								</a>
+							</div>
+						) : (
+							<></>
+						)}
 					</>
 				)}
 			</div>
@@ -92,7 +105,7 @@ export default function UserInfo() {
 				) : (
 					maps.map((map: Map, i: number) => {
 						return (
-							<Mapcard
+							<MapCard
 								key={i}
 								userId={userData.userId}
 								mapId={map.mapId}

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Loading from '@components/Loading.tsx';
 import { User } from '@classes/user.ts';
-import Usercard from '@components/Usercard.tsx';
+import UserCard from '@components/UserCard.tsx';
 import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 
@@ -35,7 +35,7 @@ export default function Users() {
 					) : (
 						users.map((user: User, i: number) => {
 							return (
-								<Usercard
+								<UserCard
 									key={i}
 									userId={user.userId}
 									username={user.username}
