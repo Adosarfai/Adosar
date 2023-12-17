@@ -12,7 +12,7 @@ import MapInfo from '@routes/maps/MapInfo.tsx';
 import Maps from '@routes/maps';
 import Register from '@routes/Register.tsx';
 import Settings from '@routes/Settings.tsx';
-// @ts-ignore
+// @ts-expect-error
 import { Helmet } from 'react-helmet';
 
 const router = createBrowserRouter([

@@ -149,9 +149,10 @@ export default function MapInfo() {
 							<h1
 								className='cursor-pointer'
 								onClick={() => {
-									// @ts-ignore
+									// @ts-expect-error
 									if (scores.value.length / 10 + page.value * 10 === 1)
-										page.value += 1; // A false positive by the IDE
+										// A false positive by the IDE
+										page.value += 1;
 								}}>
 								&gt;
 							</h1>
