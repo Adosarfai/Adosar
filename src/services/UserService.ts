@@ -6,30 +6,23 @@ export default class UserService {
 		return RequestService.get<User[]>(`/user/all/${page}`, false);
 	}
 
-	static getAllUsersWithPartialData(
-		page: number,
-		username?: string,
-		creationdate?: string
-	) {
+	static getAllUsersWithPartialData(page: number, username?: string, creationDate?: string) {
 		let query = '';
 		if (username) query += `username=${username}&`;
-		if (creationdate) query += `creationdate=${creationdate}&`;
-		return RequestService.get<User[]>(
-			`/user/query/${page}?${query}`,
-			false
-		);
+		if (creationDate) query += `creationdate=${creationDate}&`;
+		return RequestService.get<User[]>(`/user/query/${page}?${query}`, false);
 	}
 
 	static getUserById(id: number) {
 		return RequestService.get<User>(`/user/${id}`, false);
 	}
 
-	static async createNewUser(user: createNewUserRequest) {
-		return RequestService.postAsync<void>('/user', user, false);
+	static createNewUser(user: createNewUserRequest) {
+		return RequestService.post<void>('/user', user, false);
 	}
 
-	static async loginUser(login: loginUserRequest) {
-		return RequestService.postAsync<void>('/user/login', login, true);
+	static loginUser(login: loginUserRequest) {
+		return RequestService.post<void>('/user/login', login, true);
 	}
 
 	static removeUser(id: number) {
@@ -41,6 +34,6 @@ export default class UserService {
 	}
 
 	static patchUserWithPartialData(request: patchUserWithPartialDataRequest) {
-		return RequestService.patchAsync<void>('/user/update', request, true);
+		return RequestService.patch<void>('/user/update', request, true);
 	}
 }

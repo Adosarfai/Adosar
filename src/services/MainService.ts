@@ -1,7 +1,7 @@
 ﻿import RequestService from '@services/RequestService.ts';
 
 export default class MainService {
-	static getStatistics() {
+	static async getStatistics() {
 		return RequestService.get<getStatisticsResponse>('/statistics', false);
 	}
 }

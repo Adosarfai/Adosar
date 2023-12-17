@@ -7,10 +7,7 @@ import UserService from '@services/UserService.ts';
 
 export default function Settings() {
 	const [formData, updateFormData] = useReducer<
-		Reducer<
-			patchUserWithPartialDataRequest,
-			Partial<patchUserWithPartialDataRequest>
-		>
+		Reducer<patchUserWithPartialDataRequest, Partial<patchUserWithPartialDataRequest>>
 	>(
 		(
 			prev: patchUserWithPartialDataRequest,
@@ -33,11 +30,10 @@ export default function Settings() {
 
 	function onSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+
 		UserService.patchUserWithPartialData(formData).then(() =>
 			Navigate({
-				to: `/user/${
-					JwtService.parseJwt(Cookies.get('jwt') || '').userId
-				}`,
+				to: `/user/${JwtService.parseJwt(Cookies.get('jwt') || '').userId}`,
 			})
 		);
 	}
@@ -89,9 +85,7 @@ export default function Settings() {
 							<label>Profile picture</label>
 							<img
 								src={`${import.meta.env.VITE_CDN_URL}/user/${
-									JwtService.parseJwt(
-										Cookies.get('jwt') || ''
-									).userId
+									JwtService.parseJwt(Cookies.get('jwt') || '').userId
 								}.png`}
 								alt='PP'
 								className='h-16 w-16 m-2 rounded-full mx-auto'
@@ -101,9 +95,7 @@ export default function Settings() {
 								className='bg-charcoal border-2 rounded-lg my-2 py-1 px-2 hover:animate-pulse focus:animate-none'
 								onChange={e => {
 									if (e.target.files![0]) {
-										Base64Service.toBase64(
-											e.target.files![0]
-										).then(res => {
+										Base64Service.toBase64(e.target.files![0]).then(res => {
 											updateFormData({
 												profilePicture: res as string,
 											});

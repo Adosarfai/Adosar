@@ -14,9 +14,7 @@ export default function Login() {
 	);
 
 	function onLoginEmail(e: FormEvent<HTMLFormElement>) {
-		UserService.loginUser(formData).then(
-			() => (window.location.pathname = '/')
-		);
+		UserService.loginUser(formData).then(() => (window.location.pathname = '/'));
 		e.preventDefault();
 	}
 
@@ -99,6 +97,12 @@ export default function Login() {
 							className='ring-2 ring-primary w-full mx-auto rounded-lg py-2 px-8 mt-4 cursor-pointer hover:bg-primary smooth duration-150'
 						/>
 					</form>
+					<h1 className='font-thin'>
+						No account yet?{' '}
+						<a className='underline' href='/register'>
+							register here
+						</a>
+					</h1>
 				</div>
 			</div>
 		</>

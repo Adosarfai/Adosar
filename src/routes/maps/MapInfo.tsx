@@ -5,6 +5,11 @@ import MapService from '@services/MapService.ts';
 import ScoreService from '@services/ScoreService.ts';
 import { Score } from '@classes/score.ts';
 import ScoreCard from '@components/ScoreCard.tsx';
+import { signal } from '@preact/signals-react';
+import { Map } from '@classes/map.ts';
+
+const map = signal<Map | undefined>(undefined);
+const scores = signal<Score[] | undefined>(undefined);
 
 export default function MapInfo() {
 	const { id } = useParams();
@@ -14,54 +19,47 @@ export default function MapInfo() {
 		Navigate({ to: '/' });
 	}
 
-	const { data: mapData, error: mapError } = MapService.getMapById(
-		Number(id)
-	);
-	const { data: scoreData, error: scoreError } =
-		ScoreService.getScoresByMapId(Number(id));
+	MapService.getMapById(Number(id))
+		.then(res => (map.value = res))
+		.catch(() => {
+			toast.error(`Could not find map with id ${id}`);
+			return (
+				<div className='m-16 bg-gray-800 rounded-2xl p-8 flex'>
+					<h1 className='mx-auto'>‼️Map could not be loaded‼️</h1>
+				</div>
+			);
+		});
 
-	const error = mapError || scoreError;
-
-	if (error) {
-		if (mapError) toast.error(`Could not find map with id ${id}`);
-		if (scoreError)
+	ScoreService.getScoresByMapId(Number(id))
+		.then(res => (scores.value = res))
+		.catch(() => {
 			toast.error(`Could not load scores for map with id ${id}`);
-
-		return (
-			<div className='m-16 bg-gray-800 rounded-2xl p-8 flex'>
-				<h1 className='mx-auto'>‼️Map could not be loaded‼️</h1>
-			</div>
-		);
-	}
+		});
 
 	return (
 		<div className='h-screen absolute w-full'>
 			<div className='m-16 bg-gray-800 rounded-2xl p-8 flex-1 sm:flex'>
-				{!mapData ? (
+				{!map.value ? (
 					<Loading />
 				) : (
 					<>
 						<img
-							src={`${import.meta.env.VITE_CDN_URL}/cover/${
-								mapData.mapId
-							}.png`}
+							src={`${import.meta.env.VITE_CDN_URL}/cover/${map.value.mapId}.png`}
 							alt='map cover2'
 							className='h-fit w-32 rounded-full mr-8 shadow-2xl'
 						/>
 						<span className='w-full'>
 							<div className='mb-1 flex justify-between text-sm sm:text-2xl'>
 								<h1 className='font-bold mx-auto mt-2 sm:mx-0 sm:mt-0'>
-									{mapData.title}
+									{map.value.title}
 								</h1>
 								<p className='font-light text-sm hidden sm:block'>
-									{new Date(
-										mapData.creationDate
-									).toDateString()}
+									{new Date(map.value.creationDate).toDateString()}
 								</p>
 							</div>
 							<hr />
 							<p className='font-light text-gray-300 text-xl hidden sm:block'>
-								{mapData.artist}
+								{map.value.artist}
 							</p>
 						</span>
 					</>
@@ -72,10 +70,10 @@ export default function MapInfo() {
 				<hr />
 			</div>
 			<div className='mx-16 flex-1 sm:flex'>
-				{!scoreData ? (
+				{!scores.value ? (
 					<Loading />
 				) : (
-					scoreData.map((score: Score, i: number) => {
+					scores.value.map((score: Score, i: number) => {
 						return (
 							<ScoreCard
 								key={i}

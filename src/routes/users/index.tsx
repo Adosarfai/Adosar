@@ -1,39 +1,39 @@
 ﻿import UserService from '@services/UserService.ts';
-import { useState } from 'react';
 import Loading from '@components/Loading.tsx';
 import { User } from '@classes/user.ts';
 import UserCard from '@components/UserCard.tsx';
 import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
+import { signal } from '@preact/signals-react';
+
+const users = signal<User[] | undefined>(undefined);
+const page = signal<number>(0);
+const usernameQuery = signal<string>('');
 
 export default function Users() {
-	const [page, setPage] = useState<number>(0);
-	const [usernameQuery, setUsernameQuery] = useState<string>('');
-	const [usernameQueryBounce] = useDebounce<string>(usernameQuery, 250);
+	const [usernameQueryBounce] = useDebounce<string>(usernameQuery.value, 250);
 
-	const { data: users, error } = UserService.getAllUsersWithPartialData(
-		page,
-		usernameQueryBounce
-	);
+	UserService.getAllUsersWithPartialData(page.value, usernameQueryBounce)
+		.then(res => (users.value = res))
+		.catch(() => {
+			toast.error(`Could not load users`);
+			return (
+				<div className='m-16 bg-gray-800 rounded-2xl p-8 flex'>
+					<h1 className='mx-auto'>‼️Users could not be loaded‼️</h1>
+				</div>
+			);
+		});
 
-	if (error) {
-		toast.error(`Could not load users`);
-		return (
-			<div className='m-16 bg-gray-800 rounded-2xl p-8 flex'>
-				<h1 className='mx-auto'>‼️Users could not be loaded‼️</h1>
-			</div>
-		);
-	}
 	return (
 		<div className='m-16 flex gap-4'>
 			<div className='bg-gray-800 rounded-lg p-4 min-w-[70%]'>
 				Users
 				<hr />
 				<div className='m-4'>
-					{!users ? (
+					{!users.value ? (
 						<Loading />
 					) : (
-						users.map((user: User, i: number) => {
+						users.value.map((user: User, i: number) => {
 							return (
 								<UserCard
 									key={i}
@@ -54,11 +54,11 @@ export default function Users() {
 				<input
 					className='my-2 rounded-lg px-2 py-1 bg-gray-700'
 					type='text'
-					onChange={e => setUsernameQuery(e.currentTarget.value)}
+					onChange={e => (usernameQuery.value = e.currentTarget.value)}
 					placeholder='Search'
 				/>
 			</div>
-			<button onClick={() => setPage(1)}>&gt;</button>
+			<button onClick={() => (page.value += 1)}>&gt;</button>
 		</div>
 	);
 }

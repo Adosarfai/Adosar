@@ -10,7 +10,9 @@ interface Props {
 
 export default function ScoreCard(props: Props) {
 	return (
-		<div className='rounded-2xl bg-gray-800 p-6 my-6 flex-1 sm:flex sm:max-w-[33%]'>
+		<a
+			href={`${import.meta.env.VITE_REPLAY_URL}/${props.replayId}`}
+			className='rounded-2xl bg-gray-800 p-6 my-6 flex-1 sm:flex sm:max-w-[33%]'>
 			<img
 				src={`${import.meta.env.VITE_CDN_URL}/user/${props.userId}.png`}
 				alt='pfp'
@@ -26,14 +28,12 @@ export default function ScoreCard(props: Props) {
 				<div className='sm:absolute bottom-0 right-0 flex gap-4 justify-evenly mt-2'>
 					<a
 						className='hover:opacity-30 smooth duration-100'
-						href={`${import.meta.env.VITE_REPLAY_URL}/${
-							props.replayId
-						}`}
+						href={`${import.meta.env.VITE_REPLAY_URL}/${props.replayId}`}
 						target='_blank'>
 						<FiExternalLink />
 					</a>
 				</div>
 			</div>
-		</div>
+		</a>
 	);
 }

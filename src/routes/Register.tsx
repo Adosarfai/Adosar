@@ -13,9 +13,7 @@ export default function Register() {
 	);
 
 	function onRegister(e: FormEvent<HTMLFormElement>) {
-		UserService.createNewUser(formData).then(
-			() => (window.location.pathname = '/login')
-		);
+		UserService.createNewUser(formData).then(() => (window.location.pathname = '/login'));
 		e.preventDefault();
 	}
 
@@ -68,6 +66,14 @@ export default function Register() {
 							className='ring-2 ring-primary w-full mx-auto rounded-lg py-2 px-8 mt-4 cursor-pointer hover:bg-primary smooth duration-150'
 						/>
 					</form>
+					<div className='text-center font-thin'>
+						<h1>Already have an account? </h1>
+						<h1>
+							<a className='underline' href='/login'>
+								Login here
+							</a>
+						</h1>
+					</div>
 				</div>
 			</div>
 		</>

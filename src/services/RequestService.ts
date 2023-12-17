@@ -1,20 +1,17 @@
-﻿/* eslint react-hooks/rules-of-hooks: 0 */ // --> OFF
-import axios, { AxiosError } from 'axios';
+﻿import Axios from 'axios';
+import { setupCache } from 'axios-cache-interceptor';
 import { toast } from 'react-toastify';
-import useSWR, { SWRResponse } from 'swr';
+
+const axios = setupCache(Axios);
 
 export default class RequestService {
-	static async postAsync<T = Requestable>(
-		url: string,
-		data: any,
-		withCredentials: boolean
-	): Promise<T> {
+	static async get<T = Requestable>(url: string, withCredentials: boolean) {
 		try {
-			return await this.postFetcher(
-				`${import.meta.env.VITE_BACKEND_URL}${url}`,
-				data,
-				withCredentials
-			);
+			return axios
+				.get<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, {
+					withCredentials,
+				})
+				.then(res => res.data);
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
@@ -22,33 +19,13 @@ export default class RequestService {
 		}
 	}
 
-	static post<T = Requestable>(
-		url: string,
-		data: any,
-		withCredentials: boolean
-	): SWRResponse<T, AxiosError<any, any>, any> {
-		const res = useSWR<T, AxiosError<any, any>>(
-			`${import.meta.env.VITE_BACKEND_URL}${url}`,
-			(_url: string) => this.postFetcher(_url, data, withCredentials)
-		);
-
-		if (res.error) {
-			toast.error('Failed to complete request');
-			console.error(res.error);
-		}
-
-		return res;
-	}
-
-	static async getAsync<T = Requestable>(
-		url: string,
-		withCredentials: boolean
-	): Promise<T> {
+	static async put<T = Requestable>(url: string, data: any, withCredentials: boolean) {
 		try {
-			return await this.getFetcher(
-				`${import.meta.env.VITE_BACKEND_URL}${url}`,
-				withCredentials
-			);
+			return axios
+				.put<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, data, {
+					withCredentials,
+				})
+				.then(res => res.data);
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
@@ -56,25 +33,17 @@ export default class RequestService {
 		}
 	}
 
-	static get<T = Requestable>(
+	static async post<T = Requestable>(
 		url: string,
-		withCredentials: boolean
-	): SWRResponse<T, AxiosError<any, any>, any> {
-		return useSWR<T, AxiosError<any, any>>(
-			`${import.meta.env.VITE_BACKEND_URL}${url}`,
-			(_url: string) => this.getFetcher(_url, withCredentials)
-		);
-	}
-
-	static async deleteAsync<T = Requestable>(
-		url: string,
+		data: any,
 		withCredentials: boolean
 	): Promise<T> {
 		try {
-			return await this.deleteFetcher(
-				`${import.meta.env.VITE_BACKEND_URL}${url}`,
-				withCredentials
-			);
+			return axios
+				.post<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, data, {
+					withCredentials,
+				})
+				.then(res => res.data);
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
@@ -82,34 +51,13 @@ export default class RequestService {
 		}
 	}
 
-	static delete<T = Requestable>(
-		url: string,
-		withCredentials: boolean
-	): SWRResponse<T, AxiosError<any, any>, any> {
-		const res = useSWR<T, AxiosError<any, any>>(
-			`${import.meta.env.VITE_BACKEND_URL}${url}`,
-			(_url: string) => this.deleteFetcher(_url, withCredentials)
-		);
-
-		if (res.error) {
-			toast.error('Failed to complete request');
-			console.error(res.error);
-		}
-
-		return res;
-	}
-
-	static async patchAsync<T = Requestable>(
-		url: string,
-		data: any,
-		withCredentials: boolean
-	): Promise<T> {
+	static async delete<T = Requestable>(url: string, withCredentials: boolean): Promise<T> {
 		try {
-			return await this.patchFetcher(
-				`${import.meta.env.VITE_BACKEND_URL}${url}`,
-				data,
-				withCredentials
-			);
+			return axios
+				.delete<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, {
+					withCredentials,
+				})
+				.then(res => res.data);
 		} catch (e) {
 			toast.error('Failed to complete request');
 			console.error(e);
@@ -117,57 +65,49 @@ export default class RequestService {
 		}
 	}
 
-	static patch<T = Requestable>(
+	static async patch<T = Requestable>(
 		url: string,
 		data: any,
 		withCredentials: boolean
-	): SWRResponse<T, AxiosError<any, any>, any> {
-		const res = useSWR<T, AxiosError<any, any>>(
-			`${import.meta.env.VITE_BACKEND_URL}${url}`,
-			(_url: string) => this.patchFetcher(_url, data, withCredentials)
-		);
-
-		if (res.error) {
+	): Promise<T> {
+		try {
+			return axios
+				.patch<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, data, {
+					withCredentials,
+				})
+				.then(res => res.data);
+		} catch (e) {
 			toast.error('Failed to complete request');
-			console.error(res.error);
+			console.error(e);
+			return Promise.reject(e);
 		}
-
-		return res;
 	}
 
-	private static getFetcher = (url: string, withCredentials: boolean) =>
-		axios
-			.get(url, {
-				withCredentials,
-			})
-			.then(res => res.data);
+	static async head<T = Requestable>(url: string, withCredentials: boolean): Promise<T> {
+		try {
+			return axios
+				.head<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, {
+					withCredentials,
+				})
+				.then(res => res.data);
+		} catch (e) {
+			toast.error('Failed to complete request');
+			console.error(e);
+			return Promise.reject(e);
+		}
+	}
 
-	private static postFetcher = (
-		url: string,
-		data: any,
-		withCredentials: boolean
-	) =>
-		axios
-			.post(url, data, {
-				withCredentials,
-			})
-			.then(res => res.data);
-
-	private static deleteFetcher = (url: string, withCredentials: boolean) =>
-		axios
-			.delete(url, {
-				withCredentials,
-			})
-			.then(res => res.data);
-
-	private static patchFetcher = (
-		url: string,
-		data: any,
-		withCredentials: boolean
-	) =>
-		axios
-			.patch(url, data, {
-				withCredentials,
-			})
-			.then(res => res.data);
+	static async options<T = Requestable>(url: string, withCredentials: boolean): Promise<T> {
+		try {
+			return axios
+				.options<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, {
+					withCredentials,
+				})
+				.then(res => res.data);
+		} catch (e) {
+			toast.error('Failed to complete request');
+			console.error(e);
+			return Promise.reject(e);
+		}
+	}
 }

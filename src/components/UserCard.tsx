@@ -10,7 +10,8 @@ interface Props {
 
 export default function UserCard(props: Props) {
 	return (
-		<div
+		<a
+			href={`/user/${props.userId}`}
 			className={
 				props.innerClassName
 					? props.innerClassName
@@ -43,6 +44,6 @@ export default function UserCard(props: Props) {
 					</a>
 				</div>
 			</div>
-		</div>
+		</a>
 	);
 }
