@@ -6,6 +6,13 @@ export default class MapService {
 		return RequestService.get<Map[]>(`/map/all/${page}`, true);
 	}
 
+	static getAllMapsWithPartialData(page: number, title?: string, creationDate?: string) {
+		let query = '';
+		if (title) query += `username=${title}&`;
+		if (creationDate) query += `creationdate=${creationDate}&`;
+		return RequestService.get<Map[]>(`/map/query/${page}?${query}`, false);
+	}
+
 	static getMapById(id: number) {
 		return RequestService.get<Map>(`/map/${id}`, true);
 	}

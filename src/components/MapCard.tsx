@@ -6,13 +6,18 @@ interface Props {
 	mapId: number;
 	title: string;
 	mapper: string;
+	innerClassName?: string;
 }
 
 export default function MapCard(props: Props) {
 	return (
 		<a
 			href={`/map/${props.mapId}`}
-			className='rounded-2xl bg-gray-800 p-6 my-6 flex-1 sm:flex sm:max-w-[33%]'>
+			className={
+				props.innerClassName
+					? props.innerClassName
+					: 'rounded-2xl bg-gray-800 p-6 my-6 flex-1 sm:flex sm:max-w-[33%]'
+			}>
 			<img
 				src={`${import.meta.env.VITE_CDN_URL}/cover/${props.userId}.png`}
 				alt='pfp'
