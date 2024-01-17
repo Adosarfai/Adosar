@@ -1,6 +1,6 @@
 ﻿export enum Privilege {
 	USER,
 	BANNED,
-	SUPPORTER,
+	REMOVED,
 	ADMIN,
 }

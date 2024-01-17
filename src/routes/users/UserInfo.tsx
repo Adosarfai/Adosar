@@ -7,10 +7,12 @@ import { Badge } from '@classes/badge.ts';
 import { Map } from '@classes/map.ts';
 import MapCard from '@components/MapCard.tsx';
 import { IoSettingsOutline } from 'react-icons/io5';
-import JwtService from '@services/JwtService.ts';
-import Cookies from 'js-cookie';
 import { signal } from '@preact/signals-react';
 import { User } from '@classes/user.ts';
+import State from '@services/State.ts';
+import { FiExternalLink } from 'react-icons/fi';
+import { Privilege } from '@classes/privilege.ts';
+import { FaBan } from 'react-icons/fa';
 
 const user = signal<User | undefined>(undefined);
 const maps = signal<Map[] | undefined>(undefined);
@@ -40,6 +42,26 @@ export default function UserInfo() {
 			maps.value = [];
 		});
 
+	const handleBan = () => {
+		if (user.value == null) return;
+
+		const isBanned = user.value.privilege.toString() === Privilege[Privilege.BANNED];
+
+		if (
+			!window.confirm(
+				`Are you sure you want to ${isBanned ? 'un' : ''}ban ${user.value?.username}?`
+			)
+		) {
+			return;
+		}
+
+		UserService.removeUser(user.value?.userId).then(() => {
+			toast.info(`${isBanned ? 'un' : ''}banned ${user.value?.username}`);
+		});
+
+		alert('banned');
+	};
+
 	return (
 		<div className='h-screen absolute w-full'>
 			<div className='m-16 bg-gray-800 rounded-2xl p-8 flex-1 sm:flex'>
@@ -52,10 +74,22 @@ export default function UserInfo() {
 							alt='pfp'
 							className='h-fit w-32 rounded-full mr-8 shadow-2xl'
 						/>
-						<span className='w-full'>
+						<span className='w-full relative'>
 							<div className='mb-1 flex justify-between text-sm sm:text-2xl'>
-								<h1 className='font-bold mx-auto mt-2 sm:mx-0 sm:mt-0'>
+								<h1 className='font-bold mx-auto mt-2 sm:mx-0 sm:mt-0 flex gap-2'>
 									{user.value.username}
+									<p className='text-red-500 font-bold text-sm'>
+										{user.value.privilege.toString() ===
+										Privilege[Privilege.BANNED]
+											? 'BANNED'
+											: ''}
+									</p>
+									<p className='text-red-500 font-bold text-sm'>
+										{user.value.privilege.toString() ===
+										Privilege[Privilege.REMOVED]
+											? 'REMOVED'
+											: ''}
+									</p>
 								</h1>
 								<p className='font-light text-sm hidden sm:block'>
 									{new Date(user.value.creationDate).toDateString()}
@@ -82,8 +116,23 @@ export default function UserInfo() {
 									))
 								)}
 							</div>
+							<div className='flex gap-4 justify-end mt-2'>
+								{State.privilege.value !== Privilege.ADMIN ? (
+									<button
+										className='hover:opacity-30 smooth duration-100'
+										onClick={handleBan}>
+										<FaBan />
+									</button>
+								) : undefined}
+								<a
+									className='hover:opacity-30 smooth duration-100'
+									href={`/map/${id}`}
+									target='_blank'>
+									<FiExternalLink />
+								</a>
+							</div>
 						</span>
-						{JwtService.parseJwt(Cookies.get('jwt') || '').userId === Number(id) ? (
+						{State.userId.value === Number(id) ? (
 							<div className='ml-2 mt-auto -mr-4 -mb-4'>
 								<a href='/settings'>
 									<IoSettingsOutline />
@@ -103,7 +152,7 @@ export default function UserInfo() {
 						return (
 							<MapCard
 								key={i}
-								userId={user.value?.userId || 0} // Cannot be undefined but webstorm still complains
+								userId={user.value?.userId ?? 0} // Cannot be undefined but webstorm still complains
 								mapId={map.mapId}
 								title={map.title}
 								mapper={map.artist}

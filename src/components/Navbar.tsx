@@ -1,6 +1,5 @@
 ﻿import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import Cookies from 'js-cookie';
 import State from '@services/State.ts';
 
 export default function Navbar() {
@@ -12,6 +11,8 @@ export default function Navbar() {
 		{ display: 'Packs', page: '/packs' },
 		{ display: 'Feed', page: '/feed' },
 	];
+
+	//console.log(State.loggedIn)
 
 	const currentPage = window.location.pathname;
 
@@ -66,7 +67,7 @@ export default function Navbar() {
 								</div>
 								<div className='hidden sm:w-full sm:block'></div>
 								<div className='hidden sm:ml-6 sm:block float-right flex-none'>
-									{Cookies.get('jwt') ? (
+									{State.loggedIn.value ? (
 										<a href='/settings'>
 											<img
 												src={`${import.meta.env.VITE_CDN_URL}/user/${
