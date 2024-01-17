@@ -10,6 +10,7 @@ export default function Navbar() {
 		{ display: 'Users', page: '/users' },
 		{ display: 'Maps', page: '/maps' },
 		{ display: 'Packs', page: '/packs' },
+		{ display: 'Feed', page: '/feed' },
 	];
 
 	const currentPage = window.location.pathname;

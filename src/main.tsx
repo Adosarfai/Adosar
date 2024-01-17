@@ -4,6 +4,7 @@ import './main.css';
 import Navbar from '@components/Navbar.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from '@routes/Login.tsx';
+import Feed from '@routes/Feed.tsx';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Users from '@routes/users';
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
 	{
 		path: '/settings',
 		element: <Settings />,
+	},
+	{
+		path: '/feed',
+		element: <Feed />,
 	},
 ]);
 
