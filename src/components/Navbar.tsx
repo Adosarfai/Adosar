@@ -1,7 +1,7 @@
 ﻿import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Cookies from 'js-cookie';
-import JwtService from '@services/JwtService.ts';
+import State from '@services/State.ts';
 
 export default function Navbar() {
 	const pages = [
@@ -46,9 +46,9 @@ export default function Navbar() {
 								</div>
 								<div className='hidden sm:ml-6 sm:block'>
 									<div className='flex space-x-4'>
-										{pages.map((item, index) => (
+										{pages.map((item, i) => (
 											<a
-												key={index}
+												key={i}
 												href={item.page}
 												className={`px-2 py-1 my-auto bg-white bg-opacity-0 hover:bg-opacity-10 hover:text-orange-400 rounded-lg smooth ${
 													item.page == currentPage
@@ -69,8 +69,7 @@ export default function Navbar() {
 										<a href='/settings'>
 											<img
 												src={`${import.meta.env.VITE_CDN_URL}/user/${
-													JwtService.parseJwt(Cookies.get('jwt') || '')
-														.userId
+													State.userId
 												}.png`}
 												alt='PP'
 												className='h-10 w-10 rounded-full'
