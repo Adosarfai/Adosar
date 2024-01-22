@@ -57,8 +57,12 @@ export default function Users() {
 					onChange={e => (usernameQuery.value = e.currentTarget.value)}
 					placeholder='Search'
 				/>
+				<div className='flex gap-4 justify-center mt-4'>
+					<button onClick={() => (page.value -= page.value < 1 ? 0 : 1)}>&lt;</button>
+					<p>{page.value}</p>
+					<button onClick={() => (page.value += 1)}>&gt;</button>
+				</div>
 			</div>
-			<button onClick={() => (page.value += 1)}>&gt;</button>
 		</div>
 	);
 }

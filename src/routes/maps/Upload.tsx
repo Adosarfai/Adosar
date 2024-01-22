@@ -25,7 +25,7 @@ export default function Upload() {
 	function onSubmit(e: FormEvent<HTMLFormElement>) {
 		MapService.createNewMap(createNewMapRequest).then(data => {
 			updateUploadMapRequest({ mapId: data.mapId });
-			MapService.uploadMap(uploadMapRequest).then(_ => {
+			MapService.uploadMap(uploadMapRequest).then(() => {
 				toast.info('Map uploaded');
 				window.location.pathname = `/map/${data.mapId}`;
 			});
@@ -66,7 +66,7 @@ export default function Upload() {
 					<input
 						type='button'
 						className='bg-charcoal border-2 rounded-lg py-1 px-2 hover:animate-pulse focus:animate-none'
-						onClick={_ =>
+						onClick={() =>
 							updateNewCreateMapRequest({
 								published: !createNewMapRequest.published,
 							})

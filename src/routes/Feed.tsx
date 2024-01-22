@@ -1,5 +1,5 @@
 import { Signal, signal } from '@preact/signals-react';
-import { IFrame, Stomp } from '@stomp/stompjs';
+import { Stomp } from '@stomp/stompjs';
 import { Score } from '@classes/score.ts';
 import { useEffect } from 'react';
 import ScoreCard from '@components/ScoreCard.tsx';
@@ -13,12 +13,11 @@ export default function Feed() {
 	}
 
 	function connect() {
-		let StompClient = Stomp.over(new WebSocket('ws://localhost:8080/ws'));
+		const StompClient = Stomp.over(new WebSocket('ws://localhost:8080/ws'));
 
-		StompClient.onConnect = (_: IFrame) => {
+		StompClient.onConnect = () => {
 			connected.value = true;
 			console.log(`Connected to ws`);
-			// @ts-ignore Cannot be null
 			StompClient.subscribe('/feed', message => {
 				onMessage(JSON.parse(message.body));
 			});
