@@ -5,10 +5,10 @@ import State from '@services/State.ts';
 export default function Navbar() {
 	const pages = [
 		{ display: 'Home', page: '/' },
-		{ display: 'Leaderboards', page: '/leaderboards' },
+		//{ display: 'Leaderboards', page: '/leaderboards' },
 		{ display: 'Users', page: '/users' },
 		{ display: 'Maps', page: '/maps' },
-		{ display: 'Packs', page: '/packs' },
+		//{ display: 'Packs', page: '/packs' },
 		{ display: 'Feed', page: '/feed' },
 	];
 

@@ -3,7 +3,7 @@ import { Map } from '@classes/map';
 
 export default class MapService {
 	static getAllMaps(page: number = 0) {
-		return RequestService.get<Map[]>(`/map/all/${page}`, true);
+		return RequestService.get<Map[]>(`/map/all/${page}`, false);
 	}
 
 	static getAllMapsWithPartialData(page: number, title?: string, creationDate?: string) {
@@ -14,7 +14,7 @@ export default class MapService {
 	}
 
 	static getMapById(id: number) {
-		return RequestService.get<Map>(`/map/${id}`, true);
+		return RequestService.get<Map>(`/map/${id}`, false);
 	}
 
 	static createNewMap(map: createNewMapRequest) {
@@ -22,10 +22,17 @@ export default class MapService {
 	}
 
 	static getMapsByUser(id: number, page: number = 0) {
-		return RequestService.get<Map[]>(`/map/user/${id}/${page}`, true);
+		return RequestService.get<Map[]>(`/map/user/${id}/${page}`, false);
 	}
 
-	static uploadMap(map: uploadMapRequest) {
-		return RequestService.post<void>('/map/upload', map, true);
+	static uploadMap(file: uploadMapRequest) {
+		const formData = new FormData();
+		formData.append('file', file.file);
+		formData.append('mapId', file.mapId.toString());
+		return RequestService.postMultipart<void>('/map/upload', formData, true);
+	}
+
+	static getMostPopularMap() {
+		return RequestService.get<Map>('/map/popular/2024-01-12', false);
 	}
 }

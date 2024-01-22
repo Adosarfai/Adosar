@@ -48,17 +48,26 @@ export default function Maps() {
 					)}
 				</div>
 			</div>
-			<div className='bg-gray-800 rounded-lg p-4 w-full'>
+			<div className='bg-gray-800 rounded-lg p-4 w-full flex-1'>
 				Filters
 				<hr />
 				<input
-					className='my-2 rounded-lg px-2 py-1 bg-gray-700'
+					className='my-2 rounded-lg px-2 py-1 bg-gray-700 w-full'
 					type='text'
 					onChange={e => (mapsQuery.value = e.currentTarget.value)}
 					placeholder='Search'
 				/>
+				<button
+					onClick={() => (window.location.pathname = '/map/upload')}
+					className='ring-2 ring-primary w-full mx-auto rounded-lg py-2 px-8 mt-4 cursor-pointer hover:bg-primary smooth duration-150'>
+					Upload
+				</button>
+				<div className='flex gap-4 justify-center mt-4'>
+					<button onClick={() => (page.value -= page.value < 1 ? 0 : 1)}>&lt;</button>
+					<p>{page.value}</p>
+					<button onClick={() => (page.value += 1)}>&gt;</button>
+				</div>
 			</div>
-			<button onClick={() => (page.value += 1)}>&gt;</button>
 		</div>
 	);
 }

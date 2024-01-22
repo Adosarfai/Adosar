@@ -19,8 +19,8 @@ export default function MapCard(props: Props) {
 					: 'rounded-2xl bg-gray-800 p-6 my-6 flex-1 sm:flex sm:max-w-[33%]'
 			}>
 			<img
-				src={`${import.meta.env.VITE_CDN_URL}/cover/${props.userId}.png`}
-				alt='pfp'
+				src={`${import.meta.env.VITE_CDN_URL}/cover/${props.mapId}.png`}
+				alt={props.mapId.toString()}
 				className='h-fit w-32 rounded-full mr-8'
 			/>
 			<div className='relative w-full'>

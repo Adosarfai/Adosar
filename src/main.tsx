@@ -15,6 +15,7 @@ import Register from '@routes/Register.tsx';
 import Settings from '@routes/Settings.tsx';
 // @ts-expect-error Types library is outdated
 import { Helmet } from 'react-helmet';
+import Upload from '@routes/maps/Upload.tsx';
 
 const router = createBrowserRouter([
 	{
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
 	{
 		path: '/map',
 		element: <MapInfo />,
+	},
+	{
+		path: '/map/upload',
+		element: <Upload />,
 	},
 	{
 		path: '/map/:id',

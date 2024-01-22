@@ -51,6 +51,27 @@ export default class RequestService {
 		}
 	}
 
+	static async postMultipart<T = Requestable>(
+		url: string,
+		data: any,
+		withCredentials: boolean
+	): Promise<T> {
+		try {
+			return axios
+				.post<T>(`${import.meta.env.VITE_BACKEND_URL}${url}`, data, {
+					withCredentials,
+					headers: {
+						'content-type': 'multipart/form-data',
+					},
+				})
+				.then(res => res.data);
+		} catch (e) {
+			toast.error('Failed to complete request');
+			console.error(e);
+			return Promise.reject(e);
+		}
+	}
+
 	static async delete<T = Requestable>(url: string, withCredentials: boolean): Promise<T> {
 		try {
 			return axios

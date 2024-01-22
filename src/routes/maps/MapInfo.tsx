@@ -107,7 +107,11 @@ export default function MapInfo() {
 							{scores.value.map((score: Score, i: number) => {
 								return (
 									<div className='w-full border-b-2 flex justify-between' key={i}>
-										<div className='flex gap-2'>
+										<div
+											className='flex gap-2 cursor-pointer'
+											onClick={() =>
+												(window.location.pathname = `/user/${score.user.userId}`)
+											}>
 											<img
 												src={`${import.meta.env.VITE_CDN_URL}/user/${
 													score.user.userId
